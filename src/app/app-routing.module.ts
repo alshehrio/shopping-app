@@ -1,3 +1,4 @@
+import { ProductFormComponent } from './admin/component/product-form/product-form.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -12,23 +13,48 @@ import { AuthGaurd } from './guard/auth.guard';
 
 export class Paths {
   static SHOPPING_CART = 'shopping-cart';
+  static LOGIN = 'login';
 }
 
-const appRoutes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'login', component: LoginComponent},
-  { path: 'shopping-cart', component: ShoppingCartComponent },
-  { path: 'admin/orders', component: OrdersComponent, canActivate: [AuthGaurd, AdminGuard]},
-  { path: 'admin/products', component: ProductsComponent, canActivate: [AuthGaurd, AdminGuard]},
-  { path: '**', component: NotFoundComponent }
+export const appRoutes: Routes = [
+  {
+    path: '',
+    component: HomeComponent
+  },
+  { path: Paths.LOGIN,
+     component: LoginComponent },
+  {
+    path: Paths.SHOPPING_CART,
+    component: ShoppingCartComponent,
+    canActivate: [AuthGaurd]
+  },
+  {
+    path: 'admin/orders',
+    component: OrdersComponent,
+    canActivate: [AuthGaurd, AdminGuard]
+  },
+  {
+    path: 'admin/products',
+    component: ProductsComponent,
+    canActivate: [AuthGaurd, AdminGuard]
+  },
+  {
+    path: 'admin/products/add',
+    component: ProductFormComponent,
+    canActivate: [AuthGaurd, AdminGuard]
+  },
+  {
+    path: 'admin/products/:id',
+    component: ProductFormComponent,
+    canActivate: [AuthGaurd, AdminGuard]
+  },
+  { path: '**',
+  component: NotFoundComponent }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(appRoutes)],
   exports: [RouterModule],
-  providers: [
-    AdminGuard,
-    AuthGaurd
-  ]
+  providers: [AdminGuard, AuthGaurd]
 })
 export class AppRoutingModule {}

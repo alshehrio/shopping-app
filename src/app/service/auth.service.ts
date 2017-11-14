@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { User } from '../util/user.model';
+import { User } from '../model/user.model';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/of';
@@ -33,7 +33,7 @@ export class AuthService {
       )
       .map(response => {
         this.storeFirebaseToken(response.json());
-      }).flatMap(response => {
+      }).mergeMap(response => {
         const username = email.substring(0, email.indexOf('@'));
         console.log(username);
         return this.http.get(`https://fir-demo-524e3.firebaseio.com/users/${username}.json?auth=${this.getIdToken()}`);

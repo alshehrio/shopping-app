@@ -1,6 +1,9 @@
+import { RouterModule } from '@angular/router';
+import { ProductService } from './service/product.service';
+import { DataTableModule } from 'angular-4-data-table/src/index';
 import { UserService } from './service/user.service';
 import { AuthHttp } from './service/auth-http.service';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from './service/auth.service';
 import { HttpModule } from '@angular/http';
 import { AdminModule } from './admin/admin.module';
@@ -15,6 +18,8 @@ import { NavbarComponent } from './component/navbar/navbar.component';
 import { ShoppingCartComponent } from './component/shopping-cart/shopping-cart.component';
 import { NotFoundComponent } from './component/not-found/not-found.component';
 import { LoginComponent } from './component/login/login.component';
+import { ProductCardComponent } from './component/product-card/product-card.component';
+import { ProductGridComponent } from './component/product-grid/product-grid.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +28,9 @@ import { LoginComponent } from './component/login/login.component';
     NavbarComponent,
     ShoppingCartComponent,
     NotFoundComponent,
-    LoginComponent
+    LoginComponent,
+    ProductCardComponent,
+    ProductGridComponent
   ],
   imports: [
     BrowserModule,
@@ -33,9 +40,10 @@ import { LoginComponent } from './component/login/login.component';
     AdminModule,
 
     FormsModule,
-    HttpModule
+    ReactiveFormsModule,
+    HttpModule,
   ],
-  providers: [AuthService, AuthHttp, UserService],
-  bootstrap: [AppComponent]
+  providers: [AuthService, AuthHttp, UserService, ProductService],
+  bootstrap: [AppComponent],
 })
 export class AppModule { }
