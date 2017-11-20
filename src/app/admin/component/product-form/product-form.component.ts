@@ -1,60 +1,70 @@
+import { Category } from './../../../shared/models/category.model';
+import { CategoryService } from '../../../shared/services/category.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Product } from './../../../model/product.model';
+import { Product } from '../../../shared/models/product.model';
 import { Component, Input, OnInit } from '@angular/core';
 
-import { ProductService } from '../../../service/product.service';
+import { ProductService } from '../../../shared/services/product.service';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
-  selector: 'app-product-form',
+  selector: 'admin-product-form',
   templateUrl: './product-form.component.html',
   styleUrls: ['./product-form.component.css']
 })
 export class ProductFormComponent implements OnInit {
-  categories: string[];
-  private id;
-  @Input() product: Product;
+  categories$: Observable<Category[]>;
+  product: Product;
 
   constructor(
-    private service: ProductService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private productService: ProductService,
+    private categoryService: CategoryService
   ) {}
 
   ngOnInit() {
-    this.service.getAllCateogries().subscribe(cs => this.categories = cs);
+    this.categories$ = this.categoryService.getAll();
+
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
       if (id) {
-        this.service.get(id).subscribe(p => {
-          this.id = id;
-          this.product = p;
-          console.log(p);
-        });
+        this.productService.getById(id)
+          .subscribe(p => this.product = p);
       } else {
         this.product = new Product();
       }
     });
+
   }
 
   submit() {
-    console.log('submit', this.product);
     if (this.product.id) {
-      this.service.update(this.product).subscribe(r => {
-        console.log(r);
-      });
+      this.update();
     } else {
-      this.service.add(this.product).subscribe(id => {
-        console.log(id);
-      });
+      this.add();
     }
   }
 
-  delete() {
-    console.log('delete', this.product);
-    this.service.delete(this.id).subscribe();
+  private add(): void {
+    this.productService
+      .add(this.product)
+      .subscribe(id => this.goToProducts());
   }
 
-  goToProducts(): void {
+  private update(): void {
+    this.productService
+      .update(this.product)
+      .subscribe(() => this.goToProducts());
+  }
+
+  private delete() {
+    this.productService
+      .delete(this.product)
+      .subscribe(() => this.goToProducts());
+  }
+
+  private goToProducts(): void {
     this.router.navigateByUrl('/admin/products');
   }
 }

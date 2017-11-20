@@ -1,26 +1,49 @@
-import { RouterModule } from '@angular/router';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DataTableModule } from 'angular-4-data-table/src/index';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ProductsComponent } from './component/products/products.component';
+import { RouterModule } from '@angular/router';
+import { DataTableModule } from 'angular-4-data-table/src/index';
+
+import { AuthGaurd } from '../shared/guards/auth.guard';
+import { SharedModule } from './../shared/shared.module';
 import { OrdersComponent } from './component/orders/orders.component';
 import { ProductFormComponent } from './component/product-form/product-form.component';
-import { appRoutes } from '../app-routing.module';
+import { ProductsComponent } from './component/products/products.component';
+import { AdminGuard } from './guards/admin.guard';
+
+const ROUTES = [
+  {
+    path: 'admin/products',
+    component: ProductsComponent,
+    canActivate: [AuthGaurd, AdminGuard]
+  },
+  {
+    path: 'admin/orders',
+    component: OrdersComponent,
+    canActivate: [AuthGaurd, AdminGuard]
+  },
+  {
+    path: 'admin/products/add',
+    component: ProductFormComponent,
+    canActivate: [AuthGaurd, AdminGuard]
+  },
+  {
+    path: 'admin/products/:id',
+    component: ProductFormComponent,
+    canActivate: [AuthGaurd, AdminGuard]
+  }
+];
 
 @NgModule({
   imports: [
-    CommonModule,
+    SharedModule,
     DataTableModule,
-
-    FormsModule,
-    ReactiveFormsModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forChild(ROUTES),
   ],
-  declarations: [ProductsComponent, OrdersComponent, ProductFormComponent],
-  exports: [
+  declarations: [
     OrdersComponent,
-    ProductsComponent
-  ]
+    ProductsComponent,
+    ProductFormComponent
+  ],
+  providers: [AdminGuard],
+  exports: []
 })
-export class AdminModule { }
+export class AdminModule {}
