@@ -1,7 +1,9 @@
+import 'rxjs/add/operator/take';
+
 import { Component, Input } from '@angular/core';
 import { Product } from 'shared/models/product.model';
 import { CartService } from 'shared/services/cart.service';
-import 'rxjs/add/operator/take';
+import { Cart } from 'shared/models/cart.model';
 
 @Component({
   selector: 'shared-product-card',
@@ -12,19 +14,15 @@ export class ProductCardComponent {
 
   @Input() product: Product;
   @Input() hasAction = false;
+  public cart: Cart;
 
-  quantity = 0;
   constructor(private cartService: CartService) {
-    this.cartService.cart.subscribe(cart => {
-      console.log(cart);
-      const item = cart.getItem(this.product);
-      this.quantity = item ? item.quantity : 0;
-    });
-   }
+    this.cartService.cart$.subscribe(cart => this.cart = cart);
+  }
 
   addToCart() {
-    console.log('hamdallah0');
-    this.cartService.addItem(this.product);
+    this.cartService.addItem(this.product)
+      .subscribe(cart => this.cart = cart);
   }
 
 }
