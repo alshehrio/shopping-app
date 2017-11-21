@@ -13,6 +13,6 @@
       <p class="card-text">{{ product.price | currency:'USD':true}}</p>
     </div>
     <div *ngIf="hasAction">
-      <button class="btn btn-primary btn-block">Add to cart</button>
+      <button class="btn btn-primary btn-block" (click)="addToCart()">Add to cart - {{ quantity }}</button>
     </div>
 </div>

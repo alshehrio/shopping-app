@@ -11,6 +11,7 @@ import { AuthService } from './services/auth.service';
 import { CategoryService } from './services/category.service';
 import { ProductService } from './services/product.service';
 import { UserService } from './services/user.service';
+import { CartService } from 'shared/services/cart.service';
 
 @NgModule({
   imports: [
@@ -34,6 +35,7 @@ import { UserService } from './services/user.service';
     ProductService,
     CustomFormsModule,
     AuthGaurd,
+    CartService
   ]
 })
 export class SharedModule { }

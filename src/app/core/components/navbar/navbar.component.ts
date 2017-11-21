@@ -1,3 +1,4 @@
+import { CartService } from 'shared/services/cart.service';
 import { UserService } from '../../../shared/services/user.service';
 import { AuthService } from '../../../shared/services/auth.service';
 import { Component, OnInit } from '@angular/core';
@@ -9,10 +10,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent {
 
+  quantity = 0;
   constructor(
     public authService: AuthService,
-    private userService: UserService
-  ) { }
+    private userService: UserService,
+    private cartService: CartService
+  ) {
+    this.cartService.cart.subscribe(cart => this.quantity = cart.quantity);
+  }
 
   getUsername(): string {
     return this.authService.getUser().name;
