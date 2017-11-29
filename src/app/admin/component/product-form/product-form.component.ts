@@ -1,3 +1,4 @@
+import { TranslateService } from 'ng2-translate';
 import { Category } from './../../../shared/models/category.model';
 import { CategoryService } from '../../../shared/services/category.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -20,7 +21,8 @@ export class ProductFormComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private productService: ProductService,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private translateService: TranslateService
   ) {}
 
   ngOnInit() {
@@ -34,6 +36,10 @@ export class ProductFormComponent implements OnInit {
       } else {
         this.product = new Product();
       }
+    });
+
+    this.translateService.get('title').subscribe(s => {
+      console.log(s);
     });
 
   }

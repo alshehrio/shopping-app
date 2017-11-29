@@ -11,12 +11,13 @@ import { AuthService } from './services/auth.service';
 import { CategoryService } from './services/category.service';
 import { ProductService } from './services/product.service';
 import { UserService } from './services/user.service';
-
+    import {TranslateModule} from 'ng2-translate';
 @NgModule({
   imports: [
     BrowserModule,
     HttpModule,
     FormsModule,
+    // TranslateModule,
     NgbModule.forRoot(),
   ],
   exports: [
@@ -24,6 +25,7 @@ import { UserService } from './services/user.service';
     FormsModule,
     BrowserModule,
     NgbModule,
+    // TranslateModule,
     CustomFormsModule,
   ],
   declarations: [ProductCardComponent],

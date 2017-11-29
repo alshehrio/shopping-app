@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TranslateService } from 'ng2-translate';
 
 @Component({
   selector: 'app-root',
@@ -6,4 +7,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  constructor(translateService: TranslateService) {
+    translateService.setDefaultLang('ar');
+    translateService.use('ar');
+  }
 }
